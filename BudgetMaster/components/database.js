@@ -172,7 +172,7 @@ export default function Database() {
                                     }
                                 );
                             } else {
-                                resolve(result.rows.item(0));
+                                resolve(result.rows.item(0).ID);
                             }
                         },
                         (_tx, err) => {
@@ -181,6 +181,63 @@ export default function Database() {
                     );
                 });
             })
+        });
+    }
+
+    this.addExpense = (catId, day, month, amount) => {
+        return new Promise((resolve, reject) => {
+            getCatBudget(catId, month).then((budgetId) => {
+                db.transaction((tx) => {
+                    tx.executeSql(
+                        "INSERT INTO Expense (Amount, DayOfMonth, Budget) VALUES (?, ?, ?)",
+                        [amount, day, budgetId],
+                        (_tx,_) => {
+                            resolve(_);
+                        },
+                        (_tx, err) => {
+                            reject(err);
+                        }
+                    );
+                });
+            });
+        });
+    }
+
+    this.getExpense = (id) => {
+        return new Promise((resolve, reject) => {
+            db.transaction((tx) => {
+                tx.executeSql(
+                    "SELECT Amount, DayOfMonth, Budget FROM Expense WHERE ID=?",
+                    [id],
+                    (_tx, result) => {
+                        resolve(result.rows.item(0));
+                    },
+                    (_tx, err) => {
+                        reject(err);
+                    }
+                );
+            });
+        });
+    }
+
+    this.getExpenses = (budgetId) => {
+        return new Promise((resolve, reject) => {
+            db.transaction((tx) => {
+                tx.executeSql(
+                    "SELECT ID FROM Expense WHERE Budget=?",
+                    [budgetId],
+                    (_tx, result) => {
+                        let ids = [];
+                        for (let i = 0; i < result.rows.length; i++) {
+                            ids.push(result.rows.item(i).ID);
+                        }
+                        resolve(ids);
+                    },
+                    (_tx, err) => {
+                        reject(err);
+                    }
+                );
+            });
         });
     }
 
