@@ -18,7 +18,7 @@ export default function AddCategory(props) {
         amount = Math.round(amount);
         database.createdPromise.then(() => {
             database.addCategory(name, amount).then(() => {
-                props.setAddingCat(false);
+                props.addedCategory();
             });
         });
     }
