@@ -1,7 +1,27 @@
-import {View, Text} from "react-native";
+import {View, Button} from "react-native";
 
-export default function Navigation() {
+export default function Navigation(props) {
+    function setSpending() {
+        props.setMode("spending");
+    }
+    function setStatistics() {
+        props.setMode("statistics");
+    }
+    function setSettings() {
+        props.setMode("settings");
+    }
     return (<View>
-        <Text>Nav bar</Text>
+        <Button
+            title="Add Spending"
+            onPress={setSpending}
+        />
+        <Button
+            title="View Statistics"
+            onPress={setStatistics}
+        />
+        <Button
+            title="Settings"
+            onPress={setSettings}
+        />
     </View>);
 }

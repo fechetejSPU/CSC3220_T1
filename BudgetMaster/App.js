@@ -1,17 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import Navigation from './components/navigation';
+import { useState } from 'react';
 import Spending from './components/spending';
 import Statistics from './components/statistics';
 import Settings from './components/settings';
 
 export default function App() {
+  const [getMode, setMode] = useState("spending");
   return (
     <View style={styles.container}>
-      <Navigation/>
-      <Spending/>
-      <Statistics/>
-      <Settings/>
+      <Spending
+        getMode={getMode}
+        setMode={setMode}
+      />
+      <Statistics
+        getMode={getMode}
+        setMode={setMode}
+      />
+      <Settings
+        getMode={getMode}
+        setMode={setMode}
+      />
       <StatusBar style="auto" />
     </View>
   );
