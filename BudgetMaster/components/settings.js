@@ -4,6 +4,7 @@ import Navigation from './navigation';
 import AddCategory from "./addCategory";
 import Category from "./category";
 import Database from "./database";
+import Styling from "./styling";
 
 export default function Settings(props) {
     const [getAddingCat, setAddingCat] = useState(false);
@@ -41,32 +42,48 @@ export default function Settings(props) {
             });
         });
     }
+    function formatAmount(num) {
+        return (Math.round(num)/100).toString();
+    }
 
     useEffect(updateCategories,[]);
 
     return (<Modal visible={props.getMode == "settings"}>
-        <View>
+        <View style={Styling.modify(Styling.styleSheet.background, {
+            flexDirection: "column",
+            height:"100%"
+        })}>
             <Navigation
                 setMode={props.setMode}
+                style={Styling.modify(Styling.styleSheet.title, {
+                    flex:1
+                })}
             />
-            <Text>Settings</Text>
-            <FlatList
+            <Text style={Styling.modify(Styling.styleSheet.title, {
+                flex:1
+            })}>Settings</Text>
+            <View style = {{
+                flex:17,
+            }}><FlatList
                 data={getCategories}
                 renderItem={({item}) => <Category 
                     catName={item.cat.CatName}
-                    amount={item.cat.Amount}
+                    amount={formatAmount(item.cat.Amount)}
                     id={item.id}
                     updateMethod={updateCategories}
                 />}
                 keyExtractor={item => item.id}
-            />
+            /></View>
+            <View style = {{
+                flex:1,
+            }}><Button
+                title = "Add category"
+                onPress={addCategory}
+                color={Styling.mainColor}
+            /></View>
             <AddCategory
                 addedCategory={addedCategory}
                 visible={getAddingCat}
-            />
-            <Button
-                title = "Add category"
-                onPress={addCategory}
             />
         </View>
     </Modal>);

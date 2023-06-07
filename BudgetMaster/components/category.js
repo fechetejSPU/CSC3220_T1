@@ -1,5 +1,6 @@
 import { View, Text, Button } from "react-native";
 import Database from "./database";
+import Styling from "./styling";
 
 export default function Category(props) {
     const database = Database();
@@ -10,11 +11,16 @@ export default function Category(props) {
             });
         });
     }
-    return (<View>
-        <Text> {props.catName} : {props.amount} </Text>
+    return (<View style = {{
+        flexDirection:"row",
+        margin:"3%",
+        alignItems:"center"
+    }}>
+        <Text style = {Styling.styleSheet.text}> {props.catName} : ${props.amount} </Text>
         <Button
             title = "Remove"
             onPress={deleteCategory}
+            color = {Styling.mainColor}
         />
     </View>);
 }

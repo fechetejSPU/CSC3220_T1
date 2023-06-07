@@ -134,11 +134,13 @@ export default function Statistics(props) {
                 <View><Button
                     title="<"
                     onPress={decreaseMonth}
+                    color={Styling.mainColor}
                 /></View>
                 <Text style={Styling.styleSheet.text}> {getMonthText} </Text>
                 <View><Button
                     title=">"
                     onPress={increaseMonth}
+                    color={Styling.mainColor}
                 /></View>
             </View>
             <View style={Styling.modify(Styling.styleSheet.title, {
