@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import Navigation from './navigation';
 import Database from "./database";
 import Graph from "./graph";
+import Styling from "./styling";
 
 //resets for some reason every month change if inside function
 let expenseGraph = null;
@@ -111,30 +112,51 @@ export default function Statistics(props) {
     }
 
     return (<Modal visible={props.getMode == "statistics"}>
-        <View>
+        <View style = {Styling.modify(Styling.styleSheet.background, {
+            flexDirection: "column",
+            height:"100%"
+        })}>
             <Navigation
                 setMode={props.setMode}
+                style={Styling.modify(Styling.styleSheet.title, {
+                    flex:1
+                })}
             />
-            <Text>Statistics</Text>
-            <View>
-                <Button
+            <Text style={Styling.modify(Styling.styleSheet.title, {
+                flex:1
+            })}>Statistics</Text>
+            <View style={Styling.modify(Styling.styleSheet.title, {
+                flex:1,
+                flexDirection:"row",
+                justifyContent:"center",
+                alignItems:"center",
+            })}>
+                <View><Button
                     title="<"
                     onPress={decreaseMonth}
-                />
-                <Text> {getMonthText} </Text>
-                <Button
+                /></View>
+                <Text style={Styling.styleSheet.text}> {getMonthText} </Text>
+                <View><Button
                     title=">"
                     onPress={increaseMonth}
+                /></View>
+            </View>
+            <View style={Styling.modify(Styling.styleSheet.title, {
+                flex:7,
+                justifyContent:"center",
+                alignItems:"center",
+            })}>
+                <Graph
+                    getGraph={recieveGraph}
                 />
             </View>
-        </View>
-            <Graph
-                getGraph={recieveGraph}
-            />
-        <View>
-        <Text>
-            {getDescription}
-        </Text>
+            <View style={Styling.modify(Styling.styleSheet.title, {
+                flex:10,
+            })}>
+                <Text style={Styling.styleSheet.text}>
+                    {getDescription}
+                </Text>
+            </View>
         </View>
     </Modal>);
 }
