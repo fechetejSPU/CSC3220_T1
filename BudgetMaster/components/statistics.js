@@ -1,8 +1,11 @@
 import {View, Text, Modal, Button} from "react-native";
+import {useEffect, useState} from "react";
 import Navigation from './navigation';
 import Database from "./database";
-import {useEffect, useState} from "react";
+import Graph from "./graph";
 
+//resets for some reason every month change if inside function
+let expenseGraph = null;
 export default function Statistics(props) {
     let currrentDay = new Date();
     let currentMonth = (currrentDay.getFullYear()-2020)*12 + currrentDay.getMonth();
@@ -30,7 +33,9 @@ export default function Statistics(props) {
             description += "Total Budget: $" + Math.round(total)/100 + "\n";
 
             for (let i = 0; i < keys.length; i++) {
-                description += expenses[keys[i]].budget.CatName + ":\n";
+                description += expenses[keys[i]].budget.CatName + " (";
+                description += Graph.getCatColor(expenses[keys[i]].budget.CatName)
+                description += "):\n";
                 description += "\tBudget: " + expenses[keys[i]].budget.Amount + "\n";
                 description += "\tPurchases Count: " + expenses[keys[i]].expenses.length + "\n";
                 let total = 0;
@@ -43,7 +48,22 @@ export default function Statistics(props) {
             
             setDescription(description);
         });
-    }, [getMonth]);
+    }, [getMonth, props.getMode]);
+
+    useEffect(updateGraph, [getMonth]);
+
+    function updateGraph() {
+        if (expenseGraph != null) {
+            getAllExpenses().then((expenses) => {
+                expenseGraph.updateExpenses(expenses, getMonth);
+            });
+        }
+    }
+
+    function recieveGraph(graph) {
+        expenseGraph = graph;
+        updateGraph();
+    }
 
     function increaseMonth() {
         setMonth(getMonth+1);
@@ -108,6 +128,9 @@ export default function Statistics(props) {
                 />
             </View>
         </View>
+            <Graph
+                getGraph={recieveGraph}
+            />
         <View>
         <Text>
             {getDescription}

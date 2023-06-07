@@ -16,8 +16,6 @@ export default function SpendingBasket(props) {
         ) {
             database.createdPromise.then(() => {
                 database.addExpense(props.id, day, month, amount).then((res) => {
-                    console.log("added expense");
-                    console.log(res);
                 });
             });
         }
