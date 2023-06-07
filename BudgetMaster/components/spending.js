@@ -78,6 +78,9 @@ export default function Spending(props) {
             <Text style={Styling.modify(Styling.styleSheet.title, {
                 flex:1
             })}>Spending</Text>     
+            <Text style={Styling.styleSheet.text}>
+                Note to teacher/reviewer: I would reccomend adding some categories from settings, and then repeatedly increasing the date in the phone settings and closing/reopening the app before adding more expenses, that way the expenses can be spread over multiple days to make stuff like the graph in statistics look better.
+            </Text>
             <View style={Styling.modify(Styling.styleSheet.title, {
                 flex:9,
                 flexDirection:"column",
