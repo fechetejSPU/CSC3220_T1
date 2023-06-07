@@ -1,4 +1,5 @@
 import {View, Button} from "react-native";
+import Styling from "./styling";
 
 export default function Navigation(props) {
     function setSpending() {
@@ -10,18 +11,21 @@ export default function Navigation(props) {
     function setSettings() {
         props.setMode("settings");
     }
-    return (<View>
-        <Button
+    return (<View style = {{flexDirection: "row"}}>
+        <View style = {{flex:1}}><Button
             title="Add Spending"
             onPress={setSpending}
-        />
-        <Button
+            color = {Styling.mainColor}
+        /></View>
+        <View style = {{flex:1}}><Button
             title="View Statistics"
             onPress={setStatistics}
-        />
-        <Button
+            color = {Styling.mainColor}
+        /></View>
+        <View style = {{flex:1}}><Button
             title="Settings"
             onPress={setSettings}
-        />
+            color = {Styling.mainColor}
+        /></View>
     </View>);
 }

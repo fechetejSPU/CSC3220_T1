@@ -1,4 +1,5 @@
-import { Button } from "react-native";
+import { Button,View } from "react-native";
+import Styling from "./styling";
 
 export default function AddMoneyButton(props) {
     function addMoney() {
@@ -10,8 +11,9 @@ export default function AddMoneyButton(props) {
         curAmount += props.amountAdd;
         props.setAmmount((Math.round(curAmount)/100).toString());
     }
-    return (<Button
+    return (<View style = {props.style}><Button
         title = {"$" + (props.amountAdd/100)}
         onPress={addMoney}
-    />);
+        color = {Styling.mainColor}
+    /></View>);
 }

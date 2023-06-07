@@ -1,16 +1,18 @@
-import {View, Text, Modal, TextInput, FlatList} from "react-native";
+import {View, Text, Modal, TextInput, FlatList,Image } from "react-native";
 import Navigation from './navigation';
 import Draggable from "react-native-draggable";
 import {useState, useEffect} from "react";
 import AddMoneyButton from "./addMoneyButton";
 import SpendingBasket from "./spendingBasket";
 import Database from "./database";
+import Styling from "./styling";
 
 export default function Spending(props) {
     const [getSpending, setSpending] = useState("0");
     const [getCategories, setCategories] = useState([]);
     const database = Database();
-    let categories = []
+    const dragImage = require("../assets/drag.png");
+    let categories = [];
     let dropFuncs = {};
     function dragRelease(dropEvent) {
         let currentAmount = Number(getSpending);
@@ -63,65 +65,122 @@ export default function Spending(props) {
     },[props.getMode]);
 
     return (<Modal visible={props.getMode == "spending"}>
-        <View>
+        <View style={Styling.modify(Styling.styleSheet.background, {
+            flexDirection: "column",
+            height:"100%"
+        })}>
             <Navigation
                 setMode={props.setMode}
+                style={Styling.modify(Styling.styleSheet.title, {
+                    flex:1
+                })}
             />
-            <Text>Spending</Text>     
-            <View>
+            <Text style={Styling.modify(Styling.styleSheet.title, {
+                flex:1
+            })}>Spending</Text>     
+            <View style={Styling.modify(Styling.styleSheet.title, {
+                flex:9,
+                flexDirection:"column",
+                justifyContent:"center",
+                alignItems:"center",
+            })}>
                 <View style={{
                     overflow:'visible',
-                    zIndex:3
+                    zIndex:3,
+                    flex:1,
+                    justifyContent:"center",
+                    alignItems:"center",
+                    backgroundColor:"pink"
                 }}>
                     <Draggable
                         shouldReverse
                         onDragRelease={dragRelease}
+                        style = {{
+                            backgroundColor:"blue"
+                        }}
                     >
-                        <TextInput
-                            inputMode="numeric"
-                            onChangeText={setSpending}
-                            value={getSpending}
-                        />
+                        <View style = {{
+                            alignItems:"center",
+                            justifyContent:"center",
+                            backgroundColor:Styling.offColor
+                        }}>
+                            <Image
+                                source = {dragImage}
+                                style = {{
+                                    width: 50,
+                                    height: 50
+                                }}
+                            />
+                            <TextInput
+                                inputMode="numeric"
+                                onChangeText={setSpending}
+                                value={getSpending}
+                                style = {Styling.modify(Styling.styleSheet.text, {
+                                    backgroundColor:Styling.offColor
+                                })}
+                            />
+                        </View>
                     </Draggable>
                 </View>
-                <View>
+                <View style = {{
+                    flex:1,
+                    flexDirection:"row",
+                    alignItems:"center"
+                }}>
                     <AddMoneyButton
                         amountAdd={100}
                         getAmount={getSpending}
                         setAmmount={setSpending}
+                        style = {{flex:1}}
                     />
                     <AddMoneyButton
                         amountAdd={500}
                         getAmount={getSpending}
                         setAmmount={setSpending}
+                        style = {{flex:1}}
                     />
                     <AddMoneyButton
                         amountAdd={1000}
                         getAmount={getSpending}
                         setAmmount={setSpending}
+                        style = {{flex:1}}
                     />
                 </View>
-                <View>
+                <View style = {{
+                    flex:1,
+                    flexDirection:"row",
+                    alignItems:"center"
+                }}>
                     <AddMoneyButton
                         amountAdd={2000}
                         getAmount={getSpending}
                         setAmmount={setSpending}
+                        style = {{flex:1}}
                     />
                     <AddMoneyButton
                         amountAdd={5000}
                         getAmount={getSpending}
                         setAmmount={setSpending}
+                        style = {{flex:1}}
                     />
                     <AddMoneyButton
                         amountAdd={10000}
                         getAmount={getSpending}
                         setAmmount={setSpending}
+                        style = {{flex:1}}
                     />
                 </View>
             </View>
-            <View>
+            <View style={Styling.modify(Styling.styleSheet.title, {
+                flex:9,
+            })}>
                 <FlatList
                     data={getCategories}
+                    contentContainerStyle = {{
+                        alignItems:"center",
+                    }}
+                    numColumns = {3}
+                    horizontal = {false}
                     renderItem={({item}) =>
                         <SpendingBasket
                             dropHandleRef = {thisBasket => dropFuncs[item.id] = thisBasket }

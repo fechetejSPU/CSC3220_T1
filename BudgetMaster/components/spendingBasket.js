@@ -1,6 +1,7 @@
 import {useState} from "react";
 import { Image, View, Text } from "react-native";
 import Database from "./database";
+import Styling from "./styling";
 
 export default function SpendingBasket(props) {
     const basketImage = require("../assets/basket.png");
@@ -15,8 +16,7 @@ export default function SpendingBasket(props) {
             y <= getBasketLayout.y + getBasketLayout.h
         ) {
             database.createdPromise.then(() => {
-                database.addExpense(props.id, day, month, amount).then((res) => {
-                });
+                database.addExpense(props.id, day, month, amount);
             });
         }
     }
@@ -27,7 +27,7 @@ export default function SpendingBasket(props) {
         });
     }
 
-    let resultComponent = (<View>
+    let resultComponent = (<View style = {{margin:"10%"}}>
         <Image
             source = {basketImage}
             style = {{
@@ -36,7 +36,7 @@ export default function SpendingBasket(props) {
             }}
             onLayout = {newLayout}
         />
-        <Text>
+        <Text style = {Styling.styleSheet.text}>
             {props.catName}
         </Text>
     </View>);
