@@ -144,7 +144,7 @@ export default function Statistics(props) {
                 /></View>
             </View>
             <View style={Styling.modify(Styling.styleSheet.title, {
-                flex:7,
+                flex:9,
                 justifyContent:"center",
                 alignItems:"center",
             })}>
@@ -153,7 +153,7 @@ export default function Statistics(props) {
                 />
             </View>
             <View style={Styling.modify(Styling.styleSheet.title, {
-                flex:10,
+                flex:8,
             })}>
                 <Text style={Styling.styleSheet.text}>
                     {getDescription}

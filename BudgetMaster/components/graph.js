@@ -1,7 +1,8 @@
-import {PixelRatio, View} from "react-native";
+import {PixelRatio, View, Text} from "react-native";
 import { GLView } from "expo-gl";
 import Expo2DContext from "expo-2d-context";
 import React from "react";
+import Styling from "./styling";
 
 const X_SIZE = 300;
 const Y_SIZE = 300;
@@ -20,9 +21,15 @@ export default class Graph extends React.Component {
                 onContextCreate={this._saveContext}
                 onLayout = {this._updateSize}
             />
+            {this.state.failedGraph &&
+                <Text style = {Styling.styleSheet.text}>
+                    Failed to load the graph, this is due to limitations in the Android emulator. Please load this project in a physical Android device to display the graph.
+                </Text>
+            }
         </View>);
     }
 
+    state = {failedGraph : false};
     _context = null;
     _xScale = 1;
     _yScale = 1;
@@ -76,7 +83,12 @@ export default class Graph extends React.Component {
     };
 
     _saveContext = (gl) => {
-        this._context = new Expo2DContext(gl);
+        try {
+            this._context = new Expo2DContext(gl);
+        } catch (err) {
+            this.setState({failedGraph : true});
+            return;
+        }
         this._context.scale(this._xScale, this._yScale);
         this._updateDrawing();
     };
